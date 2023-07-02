@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AppAlgebra | Registro</title>
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-submit {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Registro de usuario</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                {{ form.nombre }}
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                {{ form.apellido }}
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                {{ form.password }}
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirmar contraseña:</label>
+                {{ form.password2 }}
+            </div>
+            <div class="form-group">
+                <label for="matricula">Matrícula:</label>
+                {{ form.matricula }}
+            </div>
+            <div class="form-group">
+                <label for="nrc" id="nrc-label">NRC:</label>
+                {{ form.nrc }}
+            </div>
+            <div class="form-group">
+                <label for="es_alumno">Soy alumno:</label>
+                {{ form.es_alumno }}
+            </div>
+            <div class="form-submit">
+                <input type="submit" value="Registrarse">
+            </div>
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </form>
+    </div>
+    <script>
+        const alumnoCheckbox = document.getElementById('es_alumno');
+        const nrcLabel = document.getElementById('nrc-label');
+        const nrcInput = document.getElementById('id_nrc');
+    
+        alumnoCheckbox.addEventListener('change', function() {
+            if (alumnoCheckbox.checked) {
+                nrcLabel.style.display = 'block';
+                nrcInput.style.display = 'block';
+            } else {
+                nrcLabel.style.display = 'none';
+                nrcInput.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

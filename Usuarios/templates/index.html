@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+
+<body>
+    <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+
+    {% if user.es_profesor %}
+        <!-- Contenido para profesor -->
+        <h1>Bienvenido, profesor</h1>
+        {% include 'listar_materias.html' %}
+        <a href="/materias_prueba">Mis grupos</a>
+        <a href="/crear-grupo">Agregar grupo</a>
+        <!-- Otro contenido específico para profesor -->
+    {% else %}
+        <!-- Contenido para alumno -->
+        <h1>Bienvenido, alumno</h1>
+        <!-- Otro contenido específico para alumno -->
+    {% endif %}
+</body>
+
+</html>
