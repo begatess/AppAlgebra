@@ -1,1 +1,13 @@
+# Versión de Python
+python==3.8.6
+# Dependencias de Django
+Django==3.2.6
+psycopg2==2.8.6  
+# Opcional, para PostgreSQL
+Pillow==8.4.0
+django-crispy-forms==1.12.0
 python -m pip install Pillow
+#Entorno virtual
+python -m venv myenv
+
+#Para ejecutar pip install -r Requerimientos.txt

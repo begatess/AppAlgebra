@@ -1,0 +1,17 @@
+<div class="card-container">
+    {% for materia in materias %}
+    <div class="card-profesor">
+        <div class="card-content">
+            <h3 class="card-title">{{ materia.nombre }}</h3>
+            <p class="card-nrc">NRC: {{ materia.nrc }}</p>
+            <p class="score">{{ materia.numero_estudiantes }}</p>
+            <p>estudiantes</p>
+        </div>
+        <div class="card-image">
+            <a href="{% url 'dashboard' materia.nrc %}" >
+                <img src="{{ materia.imagen.url }}" alt="img_porfile">
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>

@@ -1,30 +1,150 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Home - App Algebra</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+{% if user.es_profesor %}
+<!-- Contenido para profesor -->
 
 <body>
-    <a href="{% url 'cerrar_sesion' %}">Cerrar sesión</a>
+    <header class="header">
+        <div class="container text-center">
+            <img class="logo_vertical" src="{% static '/images/logo_vertical.png' %}" alt="img_porfile">
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <!--  -->
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
 
-    {% if user.es_profesor %}
-        <!-- Contenido para profesor -->
-        <h1>Bienvenido, profesor</h1>
-        {% include 'listar_materias.html' %}
-        <a href="/materias_prueba">Mis grupos</a>
-        <a href="/crear-grupo">Agregar grupo</a>
-        <!-- Otro contenido específico para profesor -->
-    {% else %}
-        <!-- Contenido para alumno -->
-        <h1>Bienvenido, alumno</h1>
-        <!-- Otro contenido específico para alumno -->
-    {% endif %}
+            <div class="p-5 collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item mr-5">
+                        <a class="nav-item-link act" href="#">Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item-link" href="/materias_prueba">Mis grupos</a>
+                    </li>
+                </ul>
+                <h5 class="pr-5">Bienvenido, profesor</h5>
+            </div>
+        </nav>
+    </header>
+
+    <div class="sidebar">
+        <div class="sidebar_inner">
+            <div class="text-center">
+                <img class="imagen_perfil" src="{{ user.imagen_de_perfil.url }}" alt="img_porfile">
+                <h5 class="text-black p-2">{{ nombre }}</h5>
+            </div>
+
+            <ul class="link-nav">
+                <li><a href="#"> <span class="fas fa-user"></span> Mi perfil</a></li>
+                <li><a href="#"><span class="fas fa-book"></span> Mis materias</a></li>
+                <li><a href="#"><span class="fas fa-edit"></span> Configuración</a></li>
+                <li><a href="{% url 'cerrar_sesion' %}"><span class="fas fa-sign-out-alt"></span> Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="content">
+        {% include 'listar_materias_profesores.html' %}
+        <!-- {% include 'notificaciones.html' %} -->
+    </section>
+
 </body>
+
+{% else %}
+
+<body>
+    <header class="header">
+        <div class="container text-center">
+            <img class="logo_vertical" src="{% static '/images/logo_vertical.png' %}" alt="img_porfile">
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="pr-4 pl-5 pt-4 collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item mr-5">
+                        <a class="nav-item-link act" href="#">Home </a>
+                    </li>
+                    <li class="nav-item mr-5">
+                        <a class="nav-item-link" href="#">Tareas</a>
+                    </li>
+                    <li class="nav-item mr-5">
+                        <a class="nav-item-link" href="#">Exámenes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item-link" href="#">Material de Soporte</a>
+                    </li>
+                </ul>
+                <h5 class="pr-5">Bienvenido</h5>
+            </div>
+        </nav>
+
+    </header>
+
+    <section class="alumno sidebar">
+        <div class="sidebar_inner">
+            <div class="text-center">
+                <img class="imagen_perfil" src="{{ user.imagen_de_perfil.url }}" alt="img_porfile">
+                <h5 class="p-2">{{ nombre }}</h5>
+            </div>
+
+            <ul class="link-nav">
+                <li><a href="/perfil"> <span class="fas fa-user"></span> Mi perfil</a></li>
+                <li><a href="/editar_perfil"><span class="fas fa-edit"></span>Editar perfil</a></li>
+                <li><a href="/mis_materias"><span class="fas fa-book"></span> Mis materias</a></li>
+                <li><a href="/materias"><span class="fas fa-search"></span> Buscar materia</a></li>
+                <li><a href="{% url 'cerrar_sesion' %}"><span class="fas fa-sign-out-alt"></span> Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="materias ml-8">
+            {% for materia in materias %}
+            <div class="card-container">
+                <div class="card-alumno">
+                    <div class="card-image">
+                        <a href="#">
+                            <img src="{{materia.imagen.url}}" alt="img_porfile">
+                        </a>
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">{{ materia.nombre}}</h3>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="notificaciones ml-9 mt-5 mb-5">
+            <label>Notificaciones</label>
+            <div class="panel-notificaciones">
+                <div class="item-notificacion">Nueva tarea publicada de tu curso de Algebra ll</div>
+                <div class="item-notificacion">Nueva tarea publicada de tu curso de Algebra ll</div>
+                <div class="item-notificacion">Nueva tarea publicada de tu curso de Algebra ll</div>
+                <div class="item-notificacion">Nueva tarea publicada de tu curso de Algebra ll</div>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+{% endif %}
 
 </html>

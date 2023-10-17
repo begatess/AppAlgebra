@@ -10,3 +10,16 @@ class RegistroGrupo(forms.ModelForm):
     class Meta:
         model = Grupo
         fields = ('nombre', 'nrc', 'imagen') 
+
+class BuscarMateriaForm(forms.Form):
+    nrc = forms.CharField(
+        label="Buscar por NRC o nombre",
+        required=False,  # Permite dejar el campo vacío
+        widget=forms.TextInput(attrs={'placeholder': 'NRC o nombre'}),
+    )
+
+class GrupoInscripcionForm(forms.Form):
+    grupos_seleccionados = forms.ModelMultipleChoiceField(
+        queryset=Grupo.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )

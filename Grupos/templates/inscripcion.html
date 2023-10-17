@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    {{ form.grupos_seleccionados.label_tag }}
+    {% for grupo in form.grupos_seleccionados %}
+        {{ grupo.tag }}
+        {{ grupo.choice_label }}
+        <br>
+    {% endfor %}
+    <button type="submit">Inscribirse</button>
+</form>

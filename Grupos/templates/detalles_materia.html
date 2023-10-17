@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppAlgebra | Materias</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav-bar.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div id="materia-seleccionada" class="materia-seleccionada vertical-center align-items-center justify-content-center" data-materia-id="{{ materia.nrc}}">
+        <div class="materia-seleccionada-conteiner d-flex align-items-center justify-content-center">
+            <div class="materias-card-img vertical-center align-items-center justify-content-center">
+                <img src="{{ materia.imagen.url }}" alt="img_porfile">
+                <h3 class="title">{{ materia.nombre }}</h3>
+            </div>
+
+            <div class="materias-card-content vertical-center pl-5">
+                <label>Profesor(a): </label>
+                <p class="profesor">{{ materia.profesor }}</p>
+                <label>NRC:</label>
+                <p class="nrc">NRC: {{ materia.nrc }}</p>
+                <label>Descripcion</label>
+                <p class="descripcion">{{ materia.descripcion }}</h3>
+            </div>
+
+        </div>
+        <div class="materia-seleccionada-botones">
+            <a href="{% url 'inscripcion_materia' materia.nrc %}" class="boton-primary registrarse">Registrarse en esta materia</a>
+            <a href="/materias" class="boton-primary">Cancelar</a>
+        </div>
+        
+
+    </div>
+</body>

@@ -13,8 +13,18 @@ class Registro(forms.ModelForm):
     nrc = forms.ModelChoiceField(queryset=Grupo.objects.all(), required=False)
     password = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
-    es_alumno = forms.BooleanField(required=False, initial=True, widget=forms.CheckboxInput(attrs={'id': 'es_alumno'}))
+    es_alumno = forms.BooleanField(required=False, initial=True, widget=forms.CheckboxInput(attrs={'id': 'es_alumno','class':'form-check-label'}))
 
     class Meta:
         model = Alumno
         fields = ('nombre', 'apellido', 'email', 'password', 'password2',  'matricula', 'nrc') 
+
+class AlumnoEditForm(forms.ModelForm):
+    class Meta:
+        model = Alumno
+        fields = ['nombre', 'apellido', 'email', 'imagen_de_perfil']
+
+    imagen_de_perfil = forms.ImageField(
+        required=True,  # Hacer que el campo de imagen sea requerido
+        widget=forms.ClearableFileInput(attrs={'accept': 'image/*'})
+    )

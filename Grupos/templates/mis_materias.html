@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AppAlgebra | Materias</title>
+    <title>AppAlgebra | Mis materias</title>
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/nav-bar.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -13,15 +13,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
 
+</head>
 <body>
     <div id="sideNavigation" class="sidenav ">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <div class="sidebar_inner" id="sidebar_inner">
             <div class="text-center">
                 <img class="imagen_perfil" src="{{ user.imagen_de_perfil.url }}" alt="img_porfile">
-                <h5 class="p-2">{{ nombre }}</h5>
+                <h5 class="p-2">{{ user.nombre }}</h5>
             </div>
 
             <ul class="link-nav">
@@ -54,24 +54,15 @@
                             <a class="nav-item-link" href="/index">Home </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-item-link act" href="#">Buscar Materias</a>
+                            <a class="nav-item-link act" href="#">Mis materias</a>
                         </li>
                     </ul>
                 </div>
             </nav>
-
         </header>
-        <div class="buscar_materias">
-            <form class="buscar_materia" method="POST">
-                {% csrf_token %}
-                {{ form.nrc.label_tag }}
-                {{ form.nrc }}
-                <button type="submit">Buscar</button>
-            </form>
-        </div>
         <div class="materias" id="materias">
             {% for materia in materias %}
-            <a href="{% url 'detalles_materia' materia.nrc %}" class="materias-link" data-materia-id="{{ materia.nrc }}">
+            <a href="{% url '_materia' materia.nrc %}" class="materias-link" data-materia-id="{{ materia.nrc }}">
                 <div class="materias-card">
                     <div class="materias-card-img">
 
@@ -85,12 +76,8 @@
                     </div>
                 </div>
             </a>
-            {% empty %}
-            <p>No se encontraron resultados.</p>
             {% endfor %}
         </div>
-
-       
 
     </section>
     <script src="{% static 'js/main.js'%}"></script>

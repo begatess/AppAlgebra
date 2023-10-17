@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Alumno, Profesor, Grupo
 from django.shortcuts import render, redirect
-from .forms import Registro
+from .forms import Registro, AlumnoEditForm
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -12,15 +12,20 @@ from django.contrib import messages
 def index(request):
     if request.user.is_authenticated:
         user = request.user
-        profesor_id = user.id
+        nombre = f"{user.nombre} {user.apellido}" 
+        imagen_de_perfil = user.imagen_de_perfil
         es_profesor = request.user.es_profesor
-        materias = Grupo.objects.filter(profesor__id=profesor_id)
-        return render(request, 'index.html', {'es_profesor': es_profesor , 'materias': materias})
+        if es_profesor:
+            profesor_id = user.id
+            materias = Grupo.objects.filter(profesor__id=profesor_id)
+            return render(request, 'index.html', {'es_profesor': es_profesor , 'materias': materias, 'imagen_de_perfil':imagen_de_perfil, 'nombre': nombre})
+        else:
+            materias_inscritas = materias_inscritas = request.user.alumno.grupos_inscritos.all()
+            return render(request, 'index.html', {'es_profesor': es_profesor , 'materias': materias_inscritas, 'imagen_de_perfil':imagen_de_perfil, 'nombre': nombre})
     else:
-        materias = Grupo.objects.filter(profesor__id=profesor_id)
-        return render(request, 'index.html')
-    #return render(request,"index.html")
-
+        # El usuario necesita iniciar sesion
+        return render(request, 'login.html')
+   
 def login_view(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -48,7 +53,7 @@ def registro(request):
             matricula = form.cleaned_data['matricula']
             es_alumno = form.cleaned_data['es_alumno']
             nrc = form.cleaned_data['nrc']
-
+            img_perfil = 'img_porfile/default.png'
             if es_alumno:
                 Alumno.objects.create_user(email=email, 
                                            password=password,
@@ -56,7 +61,8 @@ def registro(request):
                                            apellido=apellido,
                                            matricula=matricula,
                                            grupo=nrc,
-                                           es_profesor=False
+                                           es_profesor=False,
+                                           imagen_de_perfil=img_perfil
                                            )
             else:
                 Profesor.objects.create_user(email=email, 
@@ -64,7 +70,8 @@ def registro(request):
                                             nombre=nombre,
                                             apellido=apellido,
                                             matriculaP=matricula,
-                                            es_profesor=True
+                                            es_profesor=True,
+                                            imagen_de_perfil=img_perfil
                                             )
                 
             messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
@@ -82,3 +89,26 @@ def buscarMateria(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect('login_view')
+
+def perfil(request):
+    return render(request, 'perfil.html')
+
+def editar_perfil(request):
+    alumno = request.user  # Obtener el usuario actual
+
+    if request.method == 'POST':
+        form = AlumnoEditForm(request.POST, request.FILES, instance=alumno)
+
+        if form.is_valid():
+            # Verificar si el formulario se ha modificado
+            if form.has_changed():
+                form.save()
+                messages.success(request, 'Cambios guardados exitosamente.')
+            else:
+                messages.info(request, 'No se registraron cambios.')
+
+            return redirect('perfil')  # Cambia 'perfil' por la URL de la página de perfil del alumno
+    else:
+        form = AlumnoEditForm(instance=alumno)
+
+    return render(request, 'editar_perfil.html', {'form': form})

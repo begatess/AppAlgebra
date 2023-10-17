@@ -1,108 +1,89 @@
-{% load static tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    {% tailwind_css %}
     <title>AppAlgebra | Login</title>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
-<body class="text-gray-800 antialiased">
-    <nav class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 "></nav>
-    <main>
-        <section class="flex items-center justify-between w-full h-full">
-            <div class="w-screen h-full">
-                <div class="rounded-lg w-full h-full"
-                    style="background-image: url(/static/images/fondo.jpg); background-size: 100%; background-repeat: no-repeat;">
-                    <div class="py-24 px-12">
-                        <h1 class="py-24 font-sans text-center font-bold text-4xl text-black">
-                            AppAlgebra
-                            <br>
-                            <small class="font-light text-lg">
-                                Tu plataforma de aprendizaje favorita
-                            </small>
-                        </h1>
-                    </div>
+<body>
+    <nav ></nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 vertical-center">
+                <div class="slider">
+                    <img src="{% static '/images/logo.png' %}" alt="AppAlgebra Logo">
                 </div>
             </div>
-            <div class="py-20 w-full">
-                <div class="flex items-center justify-center h-full">
-                    <div class="w-full">
-                        <div class="relative flex flex-col min-w-0  w-full mb-6 rounded-lg border-0">
-                            <div class="flex-auto px-4 lg:px-10 py-10 pt-4">
-                                <div class="block  text-gray-700 font-bold mb-2">
-                                    <h1>Inicia sesión para continuar</h1>
-                                </div>
-                                {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                                        {% endfor %}
-                                </ul>
-                                {% endif %}
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    {% if error_message %}
-                                    <div class="text-red-500 mb-4">{{ error_message }}</div>
-                                    {% endif %}
-                                    <div class="relative w-full mb-3">
-                                        <label class="block  text-gray-700 text-xs font-bold mb-2"
-                                            for="grid-password">Correo electrónico</label>
-                                        <input type="email" id="email" name="email"
-                                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                                            style="transition: all 0.15s ease 0s;" required />
-                                    </div>
-                                    <div class="relative w-full mb-3">
-                                        <label class="block  text-gray-700 text-xs font-bold mb-2"
-                                            for="grid-password">Contraseña</label>
-                                        <input type="password" id="password" name="password"
-                                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                                            style="transition: all 0.15s ease 0s;" required />
-                                    </div>
-                                    <div class="text-sm flex items-start justify-between">
-                                        <label for="password"
-                                            class="block text-sm font-sans font-medium leading-6 text-gray-900">¿Olvidaste
-                                            tu contraseña?</label>
-                                        <a href="/recuperar_pass"
-                                            class="font-semibold text-indigo-600 font-sans hover:text-indigo-500">Recuperar
-                                            contraseña</a>
-                                    </div>
-                                    <div class="text-center mt-6">
-                                        <button
-                                            class="bg-gray-900 text-white active:bg-gray-700 text-sm font-bold  px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full"
-                                            type="submit" style="transition: all 0.15s ease 0s;">
-                                            Iniciar sesión
-                                        </button>
-                                    </div>
-                                </form>
-                                <hr class="mt-6 border-b-1 border-gray-400" />
-                                <div class="flex flex-wrap">
-                                    <div class="w-full">
-                                        <small>¿No tienes cuenta?</small>
-                                        <a href="/registro" class="text-indigo-600">
-                                            <small>Registrate</small></a> <br>
-                                        <small>Ingresa como <a href="/materias"
-                                                class="font-semibold leading-6 text-indigo-600 font-sans hover:text-indigo-500">invitado</a>
-                                            para realizar los ejercicios de práctica sólo necesitas el NRC de tú
-                                            materia</small>
+            <div class="col-md-6 vertical-center">
+                <h1>Inicia sesión para continuar</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        {% if error_message %}
+                        <div class="text-red-500 mb-4">{{ error_message }}</div>
+                        {% endif %}
+                        <div class="w-full mb-3">
+                            <p class="block mb-2 pt-2"
+                                for="grid-password">Correo electrónico</p>
+                            <input type="email" id="email" name="email"
+                                class="border-0 mt-2 placeholder-gray-400  text-sm focus:outline-none focus:ring w-full"
+                                style="transition: all 0.15s ease 0s;" required />
+                        </div>
+                        <div class=" w-full mb-3">
+                            <p class="block mb-2 pt-2"
+                                for="grid-password">Contraseña</p>
+                            <input type="password" id="password" name="password"
+                                class="border-0 mt-2 placeholder-gray-400  text-sm focus:outline-none focus:ring w-full"
+                                style="transition: all 0.15s ease 0s;" required />
+                        </div>
+                        <div class="text-sm flex items-start justify-between">
+                            <p for="password"
+                                class="block text-sm font-sans font-medium leading-6 text-gray-900">¿Olvidaste
+                                tu contraseña?</p>
+                            <a href="/recuperar_pass"
+                                class="font-semibold text-indigo-600 font-sans hover:text-indigo-500">Recuperar
+                                contraseña</a>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button
+                                class="boton-primary"
+                                type="submit" style="transition: all 0.15s ease 0s;">
+                                Iniciar sesión
+                            </button>
+                        </div>
+                    </form>
+                    <hr class="mt-6 border-b-1 border-gray-400" />
+                    <div class="flex flex-wrap">
+                        <div class="w-full">
+                            <small>¿No tienes cuenta?</small>
+                            <a href="/registro" class="text-indigo-600">
+                                <small>Registrate</small></a> <br>
+                            <small>Ingresa como <a href="/materias"
+                                    class="font-semibold leading-6 text-indigo-600 font-sans hover:text-indigo-500">invitado</a>
+                                para realizar los ejercicios de práctica sólo necesitas el NRC de tú
+                                materia</small>
 
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </section>
 
-    </main>
+        </div>
+    </div>
+    
+
 </body>
 
 </html>

@@ -31,6 +31,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     apellido = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=100)
+    imagen_de_perfil = models.ImageField(upload_to='media/', default='img_porfile/default.png' , null=True, blank=True)
     es_profesor = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -45,44 +46,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 class Alumno(Usuario):
     matricula = models.PositiveSmallIntegerField()
-    grupo = models.ForeignKey('Grupos.Grupo', on_delete=models.CASCADE, default="1")
+    grupos_inscritos = models.ManyToManyField(Grupo, related_name='alumnos_inscritos', blank=True)
 
 class Profesor(Usuario):
     matriculaP = models.IntegerField()
-
-# class Usuario(AbstractUser):
-#     nombre = models.CharField(max_length=100)
-#     apellido = models.CharField(max_length=100)
-#     correo_electronico = models.EmailField(unique=True)
-#     password = models.CharField(max_length=100)
-#     es_profesor = models.BooleanField(default=False)
-    
-#     class Meta:
-#         abstract = True
-    
-#     def __str__(self):
-#         etiqueta = "{0} ({1})"
-#         if(self.es_profesor == True):
-#             tipo = "Profesor"
-#         else:
-#             tipo = "Alumno"
-#         return etiqueta.format(self.nombre, tipo)
-    
-    
-# class Alumno(models.Model):
-#     user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-#     matricula = models.IntegerField()
-#     grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='alumnos_grupo')
-    
-# class Profesor(models.Model):
-    # matriculaP = models.IntegerField()
-    # user = models.OneToOneField(Usuario, on_delete=models.CASCADE)
-    # grupo = models.ForeignKey(Grupo, on_delete=models.CASCADE, related_name='profesores_grupo')
-
-# class Grupo(models.Model):
-#     nombre = models.CharField(max_length=100)
-#     nrc = models.IntegerField()
-#     profesor = models.ForeignKey(Profesor, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.nombre
